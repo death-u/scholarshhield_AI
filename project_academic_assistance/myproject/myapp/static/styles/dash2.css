@@ -1,0 +1,625 @@
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+}.main_area-dashboard{
+    background-color: #1e1e24;
+}
+/* .main_area-ai_assistance{
+    background-color:purple;
+} */
+.main_area-ai_sumarizer{
+    background-color:transparent;
+    position:relative;
+}
+.main_area-ai_sumarizer.m_panel{
+    background-color:transparent;
+}
+.main_area-uplaod_notes{
+    background-color: #1e1e24;
+}
+.main_area-task_planner{
+    background-color: #1e1e24;
+}
+.sum_submit{
+    width:100%;
+    /* height:; */
+    background-color: rgb(187, 255, 0);
+}
+.summary_btn{
+    height:40px;
+    position: absolute;
+    bottom:0px;
+    border-radius: 9px;
+    border: none;
+    outline: none;
+}
+
+.item12-output{
+    max-height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03); /* Strips bright green wrapper */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    overflow-y: auto;
+    padding: 15px;
+    box-sizing: border-box;
+    color: var(--font-color);
+    margin-top: 20px;
+}
+/* scroll bar */
+.item12-output::-webkit-scrollbar {
+    width: 8px;               
+    height: 8px;              
+}
+.item12-output::-webkit-scrollbar-track {
+    background: transparent;  
+    border-radius: 10px;
+}
+.item12-output::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08); 
+    border: 1px solid rgba(255, 255, 255, 0.05); 
+    border-radius: 10px;                         
+    transition: background 0.3s ease;
+}
+.item12-output::-webkit-scrollbar-thumb:hover {
+    background: rgba(106, 27, 154, 0.4);  
+    border-color: rgba(142, 36, 170, 0.6); 
+}
+.item12-output::-webkit-scrollbar-thumb:active {
+    background: rgba(106, 27, 154, 0.7);  
+}
+
+/* end scroll bar */
+.output_sub_function{
+    height: 35px;
+    width: 80px;
+    background-color: transparent; /* Strips brown debug strip */
+    margin-left: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+}
+.sub_function-download{
+    height: 100%;
+    width: 50%;
+    background-color: aqua;
+}
+.sub_function-copy{
+    height: 100%;
+    width: 50%;
+    background-color: blue;
+}
+.s_f{
+    height: 100%;
+}
+
+
+.item12-settings {
+    height: 30%;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.02); 
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center; 
+}
+
+/* Internal control grid engine */
+.settings-container {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; /* CRITICAL: Drops items to the next line on narrow windows */
+    align-items: flex-end;
+}
+
+/* Base style for input sections */
+.setting-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1; /* Splits the width proportionally */
+    min-width: 200px; /* Guarantees layout doesn't compress to unreadable widths */
+}
+
+/* Gives the custom instructions field more breathing room than the dropdown */
+.instructions-group {
+    flex: 2;
+    min-width: 280px; 
+}
+
+/* Control Element Labels */
+.setting-group label {
+    font-family: sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff; /* Clean white contrast to sit cleanly on bright styles */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Core Form Inputs with explicit temporary visualization states */
+.setting-control {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Strips temporary bright neon cyan borders */
+    background-color: #1e1e24; 
+    color: #ffffff;
+    font-size: 14px;
+    box-sizing: border-box;
+    outline: none;
+    transition: all 0.3s ease;
+}
+.setting-control:focus {
+    border-color: #6a1b9a;
+    box-shadow: 0 0 10px rgba(106, 27, 154, 0.4);
+}
+/* Dynamic Interactive Focus Border change state */
+.setting-control:focus {
+    border-color: #ffffff;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+}
+
+
+/* @media (max-width: 680px) {
+    .item12-settings {
+        height: auto; 
+        min-height: 30%;
+        padding: 20px 15px;
+    }
+}
+@media (max-width: 740px) {
+    .settings-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .summarizer-content{
+        flex-direction: column;
+        gap: 15px;
+    }
+} */
+ /* ========================================================
+   SUMMARIZER FIXED BUTTON & CONTAINER BREAKOUT RESOLUTION
+   ======================================================== */
+
+/* 1. Force the main panel frame to never scroll itself */
+.main_area-ai_sumarizer {
+    background-color: transparent;
+    position: relative;
+    overflow: hidden !important; /* CRITICAL: Stops the entire panel frame from scrolling out of view */
+}
+
+/* 2. Constrain the middle content view box precisely */
+.summarizer-content {
+    /* 50px (header height) + 60px (button bar height) = 110px */
+    height: calc(100% - 110px) !important; /* Forces the middle block to leave exact room for the button */
+    width: 100%;
+    overflow-y: auto !important;           /* LOCAL SCROLL: Keeps scroll bars locked inside this zone only */
+    display: flex;
+    gap: 10px;
+}
+
+/* 3. Glue the submission bar perfectly to the absolute bottom of the panel frame */
+.sum_submit {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px; /* Rigid control height band */
+    background-color: #242424; /* Matches your dashboard background color so text cleanly disappears behind it */
+    display: flex;
+    justify-content: center;  /* Center the button horizontally */
+    align-items: center;       /* Center the button vertically */
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Clean separator line */
+    z-index: 10;               /* Ensures it stays perfectly on top of sliding text panels */
+}
+
+/* 4. Let the button sit naturally centered inside its absolute footer block */
+.summary_btn {
+    height: 40px;
+    width: 180px;
+    border-radius: 9px;
+    border: none;
+    outline: none;
+    background-color: #6a1b9a; /* ScholarShield Theme Purple */
+    color: white;
+    font-family: 'Sora', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+}
+.sub_function-download,
+.sub_function-copy {
+    height: 30px;
+    width: 36px;
+    background-color: rgba(255, 255, 255, 0.05); /* Strips old aqua and blue layout blocks */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    transition: all 0.2s ease;
+}
+.sub_function-download:hover,
+.sub_function-copy:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+/* ========================================================
+   SCHOLARSHIELD AUTOMATED PLANNER ENGINE STYLES
+   ======================================================== */
+
+.main_area-task_planner {
+    background-color: transparent;
+    position: relative;
+    overflow: hidden !important;
+    width: 100%;
+    height: 100%;
+}
+
+.ai_assistance-header {
+    padding: 5px 20px 0 20px;
+    box-sizing: border-box;
+}
+
+.panel_title {
+    color: #ffffff;
+    font-family: 'Sora', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.panel_subtitle {
+    color: rgba(255, 255, 255, 0.4);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+}
+
+/* Master Layout Framework */
+.planner-workspace {
+    width: 100%;
+    height: calc(100% - 65px);
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.planner-sidebar {
+    width: 38%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow: hidden;
+}
+
+.planner-feed-zone {
+    width: 62%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow: hidden;
+}
+
+/* AI Focus Radar Component Widget */
+.radar-card {
+    background: linear-gradient(135deg, rgba(106, 27, 154, 0.15), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(106, 27, 154, 0.3);
+    border-radius: 14px;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.radar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.radar-header h4 {
+    color: #b388ff;
+    font-family: 'Sora', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.radar-status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #00b0ff;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #00b0ff;
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.radar-desc {
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 0 0 12px 0;
+}
+
+.radar-metric {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.metric-value {
+    color: #ffffff;
+    font-family: 'Sora', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.metric-label {
+    color: rgba(255, 255, 255, 0.4);
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Glassmorphic Form Styling Elements */
+.planner-input-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.form-title {
+    color: rgba(255, 255, 255, 0.4);
+    font-family: 'Sora', sans-serif;
+    font-size: 10px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.form-group { width: 100%; }
+.form-row { display: flex; gap: 10px; align-items: center; }
+.flex-1 { flex: 1; }
+
+.planner-control {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: #15151a;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.planner-control:focus {
+    border-color: #6a1b9a;
+    box-shadow: 0 0 8px rgba(106, 27, 154, 0.3);
+}
+
+.string-textarea { resize: none; overflow-y: auto; }
+
+.task-submit-btn {
+    height: 38px;
+    padding: 0 16px;
+    background-color: #6a1b9a;
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-family: 'Sora', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
+}
+
+.task-submit-btn:hover {
+    background-color: #8e24aa;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(106, 27, 154, 0.4);
+}
+
+/* Pinned Hotzone Elements Wrapper */
+.hotzone-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.zone-title-badge {
+    color: #ff1744;
+    font-family: 'Sora', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.hotzone-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-grow: 1;
+    overflow-y: auto !important; 
+    padding-right: 4px;
+}
+
+/* Right Scroll Container Elements */
+.feed-header-title {
+    color: #ffffff;
+    font-family: 'Sora', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.feed-scroll-container {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto !important;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-right: 4px;
+}
+
+/* Master Task Card Component Layouts */
+.task-card {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.task-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    transform: translateY(-2px);
+}
+
+.task-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.heat-rating { font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; }
+.time-countdown { color: rgba(255, 255, 255, 0.4); font-family: 'Inter', sans-serif; font-size: 11px; }
+.task-title { color: #ffffff; font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 600; margin: 0; }
+.task-excerpt { color: rgba(255, 255, 255, 0.5); font-family: 'Inter', sans-serif; font-size: 12px; line-height: 1.5; margin: 0; }
+.task-card-footer { display: flex; justify-content: space-between; align-items: center; }
+
+.task-tag {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.6);
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+}
+
+.resolve-btn {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+}
+
+.resolve-btn:hover {
+    background: #00e676;
+    color: #000000;
+    border-color: #00e676;
+    box-shadow: 0 0 8px rgba(0, 230, 118, 0.3);
+}
+
+/* Strategic Color Priorities */
+.priority-low { border-left: 4px solid rgba(129, 199, 132, 0.4); }
+.priority-low .heat-rating { color: #81c784; }
+
+.priority-medium { border-left: 4px solid rgba(255, 183, 77, 0.6); }
+.priority-medium .heat-rating { color: #ffb74d; }
+
+.priority-critical { 
+    border-left: 4px solid #ff1744; 
+    background: linear-gradient(90deg, rgba(255, 23, 68, 0.03), rgba(255, 255, 255, 0.01));
+}
+.priority-critical .heat-rating { color: #ff1744; }
+
+/* Pulse Animation Logic */
+@keyframes structuralBreathing {
+    0% { box-shadow: 0 0 6px rgba(255, 23, 68, 0.1); border-color: rgba(255, 23, 68, 0.2); }
+    50% { box-shadow: 0 0 14px rgba(255, 23, 68, 0.25); border-color: rgba(255, 23, 68, 0.4); }
+    100% { box-shadow: 0 0 6px rgba(255, 23, 68, 0.1); border-color: rgba(255, 23, 68, 0.2); }
+}
+
+.pulsing-glow { animation: structuralBreathing 3s infinite ease-in-out; }
+ /* ==========================================
+   RESPONSIVE DESIGN (MOBILE & TABLET)
+   ========================================== */
+
+@media (max-width: 680px) {
+    .item12-settings {
+        height: auto; 
+        min-height: 30%;
+        padding: 20px 15px;
+    }
+}
+
+@media (max-width: 740px) {
+    /* Stack the settings form nicely */
+    .settings-container {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch; 
+    }
+    
+    /* Stack the main summarizer panels */
+    .summarizer-content {
+        flex-direction: column;
+        gap: 15px;
+        overflow-y: auto !important; 
+        height: calc(100% - 110px) !important; /* Maintains strict boundary limit on mobile viewports */
+        padding-bottom: 20px; 
+    }
+
+    .item11, .item12 {
+        width: 100%;
+        min-height: fit-content;
+    }
+
+    .summarize_text {
+        height: 30vh; 
+    }
+
+    .item12-output {
+        min-height: 250px; 
+    }
+
+    .drop_zone1 {
+        min-height: 150px; 
+    }
+}
+@media (max-width: 950px) {
+    .planner-workspace { flex-direction: column; overflow-y: auto !important; }
+    .planner-sidebar, .planner-feed-zone { width: 100%; height: auto; }
+}
