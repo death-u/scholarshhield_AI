@@ -1,15 +1,18 @@
 import json
 import threading
-from django.shortcuts import render, redirect
+from django.conf import settings
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.core.mail import send_mail, EmailMultiAlternatives
-from django.http import JsonResponse
+from django.core.mail import send_mail, EmailMultiAlternatives,EmailMessage
+from django.http import JsonResponse,HttpResponse,Http404,FileResponse,HttpResponseNotAllowed
 import os
 import fitz
 import docx
+from django.utils.text import slugify
+import mimetypes
 
 # Core ScholarShield AI Module Imports
 from .models import Profile,AcademicTask,AcademicNote
@@ -18,6 +21,7 @@ from .summarize_text_ai import ask_sum_text_ai
 from .summarize_file import ask_sum_file_ai
 from .task_planner import calculate_ai_priority
 from .note_processor import process_note_with_ai
+from .quiz_generator import generate_quiz_from_ai
 # ==========================================
 # AUTHENTICATION & LANDING VIEWS
 # ==========================================
@@ -381,7 +385,7 @@ def upload_note_file_view(request):
             tags=note_data['tags'],
             ai_summary=note_data['summary'],
             raw_extracted_text=extracted_text,
-            file_name=file_name
+            file_name=file_name,
         )
         
         return JsonResponse({
@@ -391,7 +395,7 @@ def upload_note_file_view(request):
                 "id": new_note.id,
                 "topic": new_note.topic,
                 "tags": new_note.tags,
-                "ai_summary": new_note.ai_summary,  # This MUST match the JS expectation
+                "ai_summary": new_note.ai_summary,  
                 "file_name": new_note.file_name
             }
         })
@@ -439,3 +443,115 @@ def delete_note_view(request, note_id):
             return JsonResponse({"status": "deleted"})
         except AcademicNote.DoesNotExist:
             return JsonResponse({"error": "Not found."}, status=404)
+
+
+
+@login_required
+def download_note(request, note_id):
+    note = get_object_or_404(AcademicNote, id=note_id, user=request.user)
+
+
+    if note.uploaded_file:
+        filename = os.path.basename(note.uploaded_file.name)
+        resp = FileResponse(note.uploaded_file.open("rb"), as_attachment=True, filename=f"{filename}-Scholar-shieldAI{note_id}")
+        return resp
+
+    content = note.raw_extracted_text or note.ai_summary or ""
+    if not content.strip():
+        raise Http404("Nothing to download for this note.")
+
+    safe_topic = slugify(note.topic or "note")[:50] or "note"
+    filename = f"{safe_topic}.txt"  
+
+    response = HttpResponse(content, content_type="text/plain; charset=utf-8")
+    response["Content-Disposition"] = f'attachment; filename=f"{filename}-Scholar-shieldAI{note_id}"'
+    return response
+
+
+
+def _send_note_to_self_email(note_id, user):
+    note = AcademicNote.objects.get(id=note_id, user=user)
+
+    recipient = (user.email or "").strip()
+    if not recipient:
+        return  # no email to send to
+
+    from_email = getattr(settings, "DEFAULT_FROM_EMAIL", None)
+
+    subject = f"ScholarShield AI Note: {note.topic}"
+    body = (
+        f"Hi {user.first_name or user.username},\n\n"
+        f"Thank you for user Scholar shield AI. \n\n"
+        f"Here is your note.\n"
+        f"Topic: {note.topic}\n"
+        f"Label: {note.file_name}\n\n"
+        f"— ScholarShield AI"
+    )
+
+    msg = EmailMessage(subject, body, from_email, [recipient])
+
+    if note.uploaded_file:
+        filename = os.path.basename(note.uploaded_file.name)
+        mime = mimetypes.guess_type(filename)[0] or "application/octet-stream"
+        with note.uploaded_file.open("rb") as f:
+            msg.attach(filename, f.read(), mime)
+    else:
+        content = note.raw_extracted_text or note.ai_summary or ""
+        if not content.strip():
+            return
+        safe_topic = slugify(note.topic or "note")[:50] or "note"
+        filename = f"{safe_topic}-ScholarShieldAI-{note.id}.txt"
+        msg.attach(filename, content.encode("utf-8"), "text/plain")
+
+    msg.send(fail_silently=False)
+
+
+@login_required
+def share_note(request, note_id):
+    note = get_object_or_404(AcademicNote, id=note_id, user=request.user)
+
+    if not (request.user.email or "").strip():
+        return JsonResponse({"error": "No email address found on your account."}, status=400)
+
+    # send in background so the request returns quickly (no page reload)
+    threading.Thread(
+        target=_send_note_to_self_email,
+        args=(note.id, request.user),
+        daemon=True
+    ).start()
+
+    return JsonResponse({"status": "sent", "to": request.user.email, "note_id": note.id})
+
+
+@login_required
+def get_note_data(request, note_id):
+    note = get_object_or_404(AcademicNote, id=note_id, user=request.user)
+
+    return JsonResponse({
+        "id": note.id,
+        "file_name": note.file_name,
+        "has_file": bool(note.uploaded_file),
+        "file_url": note.uploaded_file.url if note.uploaded_file else None,
+        "raw_text": note.raw_extracted_text or "",
+    })
+
+
+
+@login_required
+def generate_quiz(request, note_id):
+    note = get_object_or_404(
+        AcademicNote, 
+        id=note_id, 
+        user=request.user
+    )
+
+    raw_text = note.raw_extracted_text or ""
+    if not raw_text.strip():
+        return JsonResponse(
+            {"error": "Note has no content."}, 
+            status=400
+        )
+
+    quiz_data = generate_quiz_from_ai(raw_text)
+
+    return JsonResponse({"quiz": quiz_data})

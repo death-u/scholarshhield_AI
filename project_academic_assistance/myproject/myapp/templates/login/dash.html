@@ -181,118 +181,51 @@
                     </div>
                 </div>
                 <div class="main_note">
-                    <!-- <div class="note">
-                        <div class="note_header">
-                            <div class="ai_note_topic"></div>
-                            <div class="note_hearder_basic_function1">
-                                <button class="btn_delete"><img src="{% static 'images/assets/delete_icon.svg' %}" alt="delete" class="img_note_h__functions"></button>
-                                <button class="three_dot"><img src="{% static 'images/assets/dots_icon.svg' %}" alt="3 dots" class="img_note_h__functions"></button>
-                            </div>
-                        </div>
-                        <div class="note_main"></div>
-                        <div class="note_footer">
-                            <div class="file_name"></div>
-                            <div class="note_footer_basic_function1">
-                                <button class="btn_share"><img src="{% static 'images/assets/share_icon.svg' %}" alt="share" class="img_note_h__functions"></button>
-                                <button class="btn_download"><img src="{% static 'images/assets/download_icon.svg' %}" alt="download" class="img_note_h__functions"></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="note"></div>
-                    <div class="note"></div> -->
                   {% for note in notes %}
-
-                    <div class="note" id="note-card-{{ note.id }}" style="display: flex; flex-direction: column;">
-
-                    ```
-                    <div class="note_header"
-                        style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 8px;">
-
-                        <div class="ai_note_topic"
-                            style="flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 15px;"
-                            title="{{ note.topic|default:'Untitled' }}">
-                            {{ note.topic|default:"Untitled" }}
+                    <div class="note"
+                    id="note-card-{{ note.id }}"
+                    data-search="{{ note.topic|default:'' }} {{ note.file_name|default:'' }} {% for tag in note.tags %}{{ tag }} {% endfor %}">
+                    <div class="note_header">
+                        <div class="ai_note_topic" title="{{ note.topic|default:'Untitled' }}">
+                        {{ note.topic|default:"Untitled" }}
                         </div>
 
-                        <div class="note_hearder_basic_function1"
-                            style="display: flex; gap: 8px; flex-shrink: 0;">
+                        <div class="note_actions">
+                        <button type="button" class="icon-btn btn_delete btn_existing_delete" data-id="{{ note.id }}">
+                            <img src="{% static 'images/assets/delete_icon.svg' %}" alt="delete" class="img_note_h__functions">
+                        </button>
 
-                            <button class="btn_delete btn_existing_delete"
-                                    data-id="{{ note.id }}"
-                                    style="background: none; border: none; cursor: pointer; padding: 0;">
-                                <img src="{% static 'images/assets/delete_icon.svg' %}"
-                                    alt="delete"
-                                    class="img_note_h__functions"
-                                    style="width: 18px;">
-                            </button>
-
-                            <button class="three_dot"
-                                    style="background: none; border: none; cursor: pointer; padding: 0;">
-                                <img src="{% static 'images/assets/dots_icon.svg' %}"
-                                    alt="3 dots"
-                                    class="img_note_h__functions"
-                                    style="width: 18px;">
-                            </button>
-
+                        <button type="button" class="icon-btn three_dot" data-id="{{ note.id }}">
+                            <img src="{% static 'images/assets/dots_icon.svg' %}" alt="more" class="img_note_h__functions">
+                        </button>
                         </div>
-
                     </div>
 
-                    <div class="note_tags"
-                        style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px;">
-
+                    <div class="note_tags">
                         {% for tag in note.tags %}
-                            <span class="note-tag"
-                                style="background: rgba(255,255,255,0.1);
-                                        border: 1px solid rgba(255,255,255,0.15);
-                                        border-radius: 12px;
-                                        padding: 4px 10px;
-                                        font-size: 0.75rem;
-                                        display: inline-block;">
-                                {{ tag }}
-                            </span>
+                        <span class="note-tag">{{ tag }}</span>
                         {% endfor %}
-
                     </div>
 
-                    <div class="note_main"
-                        style="flex: 1; overflow-y: auto;">
-                        {{ note.ai_summary|safe }}
+                    <div class="note_main" data-md="1">
+                        {{ note.ai_summary|default:"" }}
                     </div>
 
-                    <div class="note_footer"
-                        style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 10px;">
-
-                        <div class="file_name"
-                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%; opacity: 0.7;"
-                            title="{{ note.file_name|default:'Note' }}">
-                            {{ note.file_name|default:"Note" }}
+                    <div class="note_footer">
+                        <div class="file_name" title="{{ note.file_name|default:'Note' }}">
+                        {{ note.file_name|default:"Note" }}
                         </div>
 
-                        <div class="note_footer_basic_function1"
-                            style="display: flex; gap: 10px; flex-shrink: 0;">
+                        <div class="note_actions">
+                        <button type="button" class="icon-btn btn_share" data-id="{{ note.id }}">
+                            <img src="{% static 'images/assets/share_icon.svg' %}" alt="share" class="img_note_h__functions">
+                        </button>
 
-                            <button class="btn_share"
-                                    style="background: none; border: none; cursor: pointer; padding: 0;">
-                                <img src="{% static 'images/assets/share_icon.svg' %}"
-                                    alt="share"
-                                    class="img_note_h__functions"
-                                    style="width: 18px;">
-                            </button>
-
-                            <button class="btn_download"
-                                    style="background: none; border: none; cursor: pointer; padding: 0;">
-                                <img src="{% static 'images/assets/download_icon.svg' %}"
-                                    alt="download"
-                                    class="img_note_h__functions"
-                                    style="width: 18px;">
-                            </button>
-
+                        <button type="button" class="icon-btn btn_download" data-id="{{ note.id }}">
+                            <img src="{% static 'images/assets/download_icon.svg' %}" alt="download" class="img_note_h__functions">
+                        </button>
                         </div>
-
                     </div>
-                    ```
-
                     </div>
 
                     {% empty %}
@@ -342,6 +275,45 @@
                      </div>
                  </div>
              </div>
+
+              <!-- sub_functions overlay -->
+            <div class="upload_overlay" id="sub_functions_overlay2">
+                <div class="SB_content">
+                    <div class="SB_header">
+                        <h3>Note Actions</h3>
+                        <button class="SB_close">&times;</button>
+                    </div>
+
+                    <div class="SB_actions">
+                        <button class="SB_btn summarize_note_overlay">
+                            <span>🧠</span>
+                            <div>
+                                <strong>Summarize Note</strong>
+                                <small>Generate a refined AI summary</small>
+                            </div>
+                        </button>
+
+                        <button class="SB_btn Quiz_overlay">
+                            <span>🎯</span>
+                            <div>
+                                <strong>Generate Quiz</strong>
+                                <small>Create practice questions</small>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Quiz Overlay -->
+            <div class="upload_overlay" id="quiz_overlay">
+                <div class="quiz-card">
+                    <div class="quiz-header">
+                        <h3>AI Quiz by scholar schield AI</h3>
+                        <button class="quiz-close-btn" id="close-btn2">&times;</button>
+                    </div>
+                    <div id="quiz_container"></div>
+                </div>
+            </div>
+            
         </div>
         <!-- end note uploader -->
         <!-- task planner -->
@@ -475,6 +447,51 @@
         {% endif %}
 
         window.STATIC_URL = "{% static 'images/assets/' %}";
+    </script>
+    <script>
+        document.addEventListener("click", async (e) => {
+        const shareBtn = e.target.closest(".btn_share");
+        if (!shareBtn) return;
+
+        const noteId = shareBtn.dataset.id;
+        if (!noteId) return;
+
+        shareBtn.disabled = true;
+
+        Swal.fire({
+            title: "Sending to your email...",
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
+        });
+
+        try {
+            const response = await fetch(`/notes/share/${noteId}/`, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            }
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+            throw new Error(data.error || `Failed (${response.status})`);
+            }
+
+            Swal.fire({
+            icon: "success",
+            title: "Sent!",
+            text: `Your note has been delivered to your email - ${data.to} - it make take up to one minutes`,
+            timer: 3000,
+            showConfirmButton: false
+            });
+
+        } catch (err) {
+            Swal.fire({ icon: "error", title: "Share failed", text: err.message });
+        } finally {
+            shareBtn.disabled = false;
+        }
+        });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!-- <script src="https://unpkg.com/dropzone@6/dist/dropzone-min.js"></script> -->

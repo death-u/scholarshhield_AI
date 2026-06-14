@@ -39,6 +39,8 @@ let close_file = document.getElementById("close_file_modal");
 let close_text = document.getElementById("close_text_modal");
 let dropZoneNotes = document.getElementById('dropzone_area_notes');
 let fileInputNotes = document.getElementById('file_input_notes');
+let sub_functions_overlay2 = document.getElementById("sub_functions_overlay2");
+const close_btn2 = document.getElementById("close-btn2")
 // =====================================
 // NEW: FILE STATE TRACKING VARIABLES
 // =====================================
@@ -635,16 +637,38 @@ let is_active_add = false;
 
 // 1. GSAP Floating Button Animation
 if (btn_hub && btn_file && btn_text) {
+
+    let closeTimer = null;
+
     btn_hub.addEventListener("click", () => {
+
         if (!is_active_add) {
             is_active_add = true;
+
             gsap.to(btn_file, { duration: 1, x: 70, ease: "elastic.out(1,0.3)" });
             gsap.to(btn_text, { duration: 1.5, x: 120, ease: "elastic.out(1,0.3)" });
+
+            // ✅ start auto-close timer
+            closeTimer = setTimeout(() => {
+                is_active_add = false;
+                gsap.to(btn_file, { duration: 0.8, x: 5, ease: "power4.in" });
+                gsap.to(btn_text, { duration: 1, x: 5, ease: "power4.in" });
+            }, 10000);
+
         } else {
+
             is_active_add = false;
+
             gsap.to(btn_file, { duration: 0.8, x: 5, ease: "power4.in" });
             gsap.to(btn_text, { duration: 1, x: 5, ease: "power4.in" });
+
+            // ✅ clear timer if manually closed
+            if (closeTimer) {
+                clearTimeout(closeTimer);
+                closeTimer = null;
+            }
         }
+
     });
 }
 
@@ -759,3 +783,34 @@ if (dropZoneNotes && fileInputNotes) {
 //         });
 //     }
 // });
+
+
+function filterNotes(query) {
+  const q = (query || "").trim().toLowerCase();
+  const tokens = q ? q.split(/\s+/) : [];
+
+  document.querySelectorAll(".main_note .note").forEach(noteEl => {
+    const haystack = (noteEl.dataset.search || "").toLowerCase();
+
+    // require every token to be present (Google-like)
+    const match = tokens.every(t => haystack.includes(t));
+
+    noteEl.style.display = match ? "" : "none";
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("search_note");
+  const btn = document.querySelector(".bas1 .search");
+
+  if (input) {
+    input.addEventListener("input", () => filterNotes(input.value));
+  }
+
+  if (btn) {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      filterNotes(input ? input.value : "");
+    });
+  }
+});
