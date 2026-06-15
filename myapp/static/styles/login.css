@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;500;600;700&display=swap');
+*{
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+:root{
+    --background-color: #e6e6e6;
+}
+body{
+    background-color: beige;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+}
+.centerdiv{
+    height: 95dvh;
+    /* min-height: 700px; */
+    width: 80%;
+    background-color: #e6e6e6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.r_left{
+    background-color: red;
+    flex-grow: 1;
+    height: 100%;
+    width: 50%;
+    overflow:hidden;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 9px;
+    border-bottom-left-radius: 9px;
+}
+#bd_image1-dark{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 2;
+
+}
+.r_right{
+    background-color: var(--background-color);
+    flex-grow: 1;
+    height: 100%;
+    width: 50%;
+    border-top-right-radius: 9px;
+    border-bottom-right-radius: 9px;
+    overflow-x: hidden;
+    font-family:'sora', sans-serif ;
+
+}
+.header-reg{
+    width: 100%;
+    height: 40px;
+    /* background-color: aqua; */
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 0 40px 0 0;
+}
+.login_reg-btn{
+    width: fit-content;
+    display: flex;
+    height: 100%;
+}
+.login_reg-btn button{
+    width: 80px;
+    height: 100%;
+    background-color: var(--background-color);
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.main_content{
+    width:100%;
+    height: 90%;
+    background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top: auto;
+}
+.content{
+    width: 80%;
+    height: 95%;
+    background-color: var(--background-color);
+}
+#first_name,#last_name,#email,#password,#department,#level{
+    border: 1px solid black;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-left-color: transparent;
+    outline: none;
+    width:100%;
+    padding: 10px;
+}
+
+.login_reg-btn .btn-reg{
+    background-color: #070B1A;
+    color:var(--background-color);
+}
+.login_reg-btn button:active{
+    opacity: 0.5;
+} 
+.submit{
+    width: 100%;
+    padding: 10px;
+    background-color: #070B1A;
+    color: var(--background-color);
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.submit:active{
+    opacity: 0.5;
+}
+.overlay_r_left{
+    width: 350px;
+    height: fit-content;
+    background-color: rgba(255, 255, 255, 0.144);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    z-index: 3;
+    transform: translate(-50% -50%);
+    top: 50%;
+    left: 50%;
+    color: white;
+    padding: 20px;
+    border-radius: 9px;
+}
+.btn-reg2{
+    background-color: var(--background-color);
+}
+@media screen and (max-width: 980px) {
+    .centerdiv{
+        width: 90%;
+    }
+}
+@media screen and (max-width: 980px) {
+    .content{
+        width: 95%;
+    }
+}
+@media screen and (max-width: 650px) {
+    .centerdiv{
+        width: 100%;
+    }
+}
+@media screen and (max-width: 650px) {
+    .r_left{
+        display: none;
+        visibility: hidden;
+    }
+}

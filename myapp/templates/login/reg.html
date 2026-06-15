@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - scholar_shield - AI </title>
+    <link rel="stylesheet" href="{% static 'styles/reg.css' %}">
+    <link rel="shortcut icon" href="{% static 'images/icon/icon1.png' %}" type="image/x-icon">
+    <style>
+        .r_left{
+            background-image: url("{% static 'images/dark-theme-background.webp' %}");
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="centerdiv">
+        <div class="r_left">
+            <!-- <img src="{% static 'images/dark-theme-background.webp' %}" alt="background image" id="bd_image1-dark" > -->
+            <div class="overlay_r_left">
+                <h2>Welcome to Scholar Shield</h2> <br>
+                <p>Unlock the future of learning with ScholarShield AI. Experience intelligent study assistance, smart note summarization, secure academic management, and AI-powered productivity tools — all in one powerful platform.
+</p>
+            </div>
+        </div>
+        <div class="r_right">
+            <div class="header-reg">
+                <div class="login_reg-btn">
+                    <button onclick="location.href='{% url 'login' %}'" class="btn-reg">Login</button>
+                    <button class="btn-reg2">Register</button>
+                </div>
+            </div>
+            <div class="main_content">
+                <div class="content">
+                    <!-- this is where the form lies -->
+                     <form action="" method="post">
+                        {% csrf_token %}
+                     <h1>Register</h1> <br>
+                     <br>
+                     <label for="first_name">FIRST NAME</label> <br>
+                     <input type="text" name="first_name" id="first_name" placeholder="Enter your first name" required> <br> <br>
+                     <label for="last_name">LAST NAME</label>
+                     <input type="text" name="last_name" id="last_name" placeholder="Enter your last name" required> <br> <br>
+                     <label for="email">EMAIL</label><br>
+                     <input type="email" name="email" id="email" placeholder="Enter your email" required> <br><br>
+                     <label for="department">DEPARTMENT</label><br>
+                     <input type="text" name="department" id="department" placeholder="Enter your department" required><br><br>
+                     <label for="level">LEVEL</label><br>
+                     <input type="number" name="level" id="level" placeholder="Enter your level" step="100" min="0" required><br><br>
+                     <label for="password">PASSWORD</label><br>
+                     <input type="password" name="password" id="password" placeholder="Enter your password" required><br> <br>
+                     <button type="submit" class="submit">SUBMIT</button>
+                        </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == "success" %}
+                    Swal.fire({
+                    icon: '{{ message.tags }}',
+                    title: 'success',
+                    text: '{{ message }}',
+                    });
+                {% elif message.tags == "error" %}
+                    Swal.fire({
+                    icon: '{{ message.tags }}',
+                    title: 'Error',
+                    text: '{{ message }}',
+                    });
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </script>
+</body>
+</html>
