@@ -1,0 +1,502 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scholar Shield AI</title>
+    <link rel="stylesheet" href="{% static 'styles/dash.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/dash2.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/dash3.css' %}">
+    <link rel="shortcut icon" href="{% static 'images/icon/icon1.png' %}" type="image/x-icon">
+    <!-- <link href="https://unpkg.com/filepond/dist/filepond.min.css"
+      rel="stylesheet"> -->
+</head>
+<body>
+<div class="main">
+    <div class="side_area area">
+        <div class="logo_div-close">
+            <div class="logo_div_content">
+                <img src="{% static 'images/icon/icon1.png' %}" alt="icon" class="logo">
+                <!-- <span class="app_name">ScholarShield AI</span> -->
+                <div class="sidebar-div"><img src="{% static 'images/assets/sidebar_icon.svg' %}" alt="sidebar"></div>
+            </div>
+        </div>
+        <div class="side_area-main_content">
+            <!-- panel1 -->
+            <div class="panel1 panel">
+                <div class="panel-icon">
+                    <img src="{% static 'images/assets/home_icon.svg' %}" alt="home icon" class="home_icon">
+                </div>
+                    
+                <div class="panel-name"><span>Dashboard</span></div>
+            </div>
+            <!-- panel2 -->
+            <div class="panel2 panel">
+                <div class="panel-icon">
+                    <img src="{% static 'images/assets/ai_icon.svg' %}" alt="ai icon" class="ai_icon">
+                </div>
+                    
+                <div class="panel-name"><span>AI assistance</span></div>
+            </div>
+            <!-- panel3 -->
+            <div class="panel3 panel">
+                <div class="panel-icon">
+                    <img src="{% static 'images/assets/ai_summarize_icon.svg' %}" alt="ai summarizer icon" class="ai_summarizer_icon">
+                </div>
+                    
+                <div class="panel-name"><span>AI summarizer</span></div>
+            </div>
+            <!-- panel4 -->
+            <div class="panel4 panel">
+                <div class="panel-icon">
+                    <img src="{% static 'images/assets/note_add_icon.svg' %}" alt="uplaod note icon" class="note_uplaod_icon">
+                </div>
+                    
+                <div class="panel-name"><span>Upload notes</span></div>
+            </div>
+            <!-- panel5 -->
+             <div class="panel5 panel">
+                <div class="panel-icon">
+                    <img src="{% static 'images/assets/task_icon.svg' %}" alt="task icon" class="task_planner_icon">
+                </div>
+                    
+                <div class="panel-name"><span>Task planner</span></div>
+            </div>
+        </div>
+        <div class="side_area-profile"></div>
+    </div>
+    <div class="main_area area">
+        <div class="main_area-dashboard m_panel">dashboard</div>
+        <!-- ai assistance -->
+        <div class="main_area-ai_assistance m_panel">
+            <div class="ai_assistance_content">
+                <div class="ai_assistance-header">
+                <span class="panel_title">AI assistance</span> <br>
+                <span>Your intelligent academic helper</span>
+                </div>
+            <div class="ai_user_response_area"></div>
+            <div class="user_input_area">
+                <div class="user_input_div user_control2">
+                    <textarea name="User_input" placeholder="Ask me anything" class="User_input" rows="1"></textarea>
+                </div>
+                <div class="user_input_control user_control2">
+                    <button class="send_btn"><img src="{% static 'images/assets/send_icon.svg' %}" alt="send image"></button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- summarizer -->
+        <div class="main_area-ai_sumarizer m_panel">
+            <div class="ai_assistance-header">
+                <span class="panel_title">Summarizer</span> <br>
+                <span>Your intelligent all in one summarizer</span>
+            </div>
+            
+            <div class="summarizer-content">
+                
+                <div class="summarize_panel item11">
+                    <div class="drop_zone1" id="drop_zone">
+                        <img src="{% static 'images/assets/file_icon.svg' %}" alt="file icon" class="file_icon">
+                        <h2>Drop your notes here</h2>
+                        <p>PDF, DOCX, TXT</p>
+                        <input type="file" id="file_input" style="display: none;" accept=".pdf, .txt, .docx">
+                    </div>
+                    
+                    <div class="summarize_text_area">
+                        <div class="summarize_text_area-main">
+                            <textarea name="summarize_text" placeholder="Or paste your notes here" class="summarize_text" rows="10"></textarea>
+                        </div>
+                        <div class="summarize_text_area-sub_functions">
+                            <div class="summarize_text_area-sub_functions_btn_clear">
+                                <img src="{% static 'images/assets/clear_icon.svg' %}" alt="clear" class="clear_icon">
+                            </div>
+                            <div class="summarize_text_area-sub_functions_btn_copy">
+                                <img src="{% static 'images/assets/copy_icon.svg' %}" alt="copy" class="copy_icon">
+                            </div>
+                        </div>
+                    </div>
+                <!-- </div> <div class="summarize_panel item12"></div>
+                <div class="summarize_panel item13"></div> -->
+    
+            </div> 
+                <div class="summarize_panel item12">
+                    <!-- setting -->
+                    <div class="item12-settings">
+                        <div class="settings-container">
+        
+        <div class="setting-group format-group">
+            <label for="summary_format">Summary Format</label>
+            <select id="summary_format" class="setting-control">
+                <option value="paragraph">Normal Paragraph</option>
+                <option value="bullets" selected>Bullet Points</option>
+                <option value="mixed">Mixed Structure</option>
+            </select>
+        </div>
+        
+        <div class="setting-group instructions-group">
+            <label for="custom_instructions">Custom AI Instructions</label>
+            <input type="text" id="custom_instructions" class="setting-control" 
+                   placeholder="e.g., Focus heavily on methodology...">
+        </div>
+        
+    </div>
+                    </div>
+                    <!-- end setting -->
+                    <div class="item12-output" id="item12_output">output</div>
+                    <div class="output_sub_function">
+                        <div class="sub_function-download" id="downloadBtn">
+                            <img src="{% static 'images/assets/download_icon.svg' %}" alt="download" class="s_f_download s_f">
+                        </div>
+                        <div class="sub_function-copy">
+                            <img src="{% static 'images/assets/copy_icon.svg' %}" alt="copy" class="s_f_copy s_f">
+                        </div>
+                    </div>
+                </div>
+                
+
+            </div>
+            <div class="sum_submit">
+                <button class="summary_btn"> summarize </button>
+            </div>
+        </div>
+        <!-- uplaod note -->
+        <div class="main_area-uplaod_notes m_panel">
+            <!-- start note uploader-->
+            <div class="note_uploder-header">
+                <span class="panel_title">Note uploader</span> <br>
+                <span>Upload your note securely</span>
+            </div>
+            <!-- ======================================= -->
+             <div class="note_uploader-content">
+                <div class="NU_basic_function">
+                    <div class="bas1 bas">
+                        <input type="text" name="search_note_bar" id="search_note" placeholder="Search for a note by name or tags e.g compiler ">
+                        <button class="search"><img src="{% static 'images/assets/search_icon.svg' %}" alt="search"></button>
+                    </div>
+                    <div class="bas2 bas">
+                        <div class="add_note_options"><img src="{% static 'images/assets/add_icon.svg' %}" alt="add"></div>
+                        <div class="add_note_options-upload_file add_animate"><img src="{% static 'images/assets/file_icon.svg' %}" alt="file"></div>
+                        <div class="add_note_options-text add_animate"><img src="{% static 'images/assets/t_icon.svg' %}" alt="text"></div>
+                    </div>
+                </div>
+                <div class="main_note">
+                  {% for note in notes %}
+                    <div class="note"
+                    id="note-card-{{ note.id }}"
+                    data-search="{{ note.topic|default:'' }} {{ note.file_name|default:'' }} {% for tag in note.tags %}{{ tag }} {% endfor %}">
+                    <div class="note_header">
+                        <div class="ai_note_topic" title="{{ note.topic|default:'Untitled' }}">
+                        {{ note.topic|default:"Untitled" }}
+                        </div>
+
+                        <div class="note_actions">
+                        <button type="button" class="icon-btn btn_delete btn_existing_delete" data-id="{{ note.id }}">
+                            <img src="{% static 'images/assets/delete_icon.svg' %}" alt="delete" class="img_note_h__functions">
+                        </button>
+
+                        <button type="button" class="icon-btn three_dot" data-id="{{ note.id }}">
+                            <img src="{% static 'images/assets/dots_icon.svg' %}" alt="more" class="img_note_h__functions">
+                        </button>
+                        </div>
+                    </div>
+
+                    <div class="note_tags">
+                        {% for tag in note.tags %}
+                        <span class="note-tag">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <div class="note_main" data-md="1">
+                        {{ note.ai_summary|default:"" }}
+                    </div>
+
+                    <div class="note_footer">
+                        <div class="file_name" title="{{ note.file_name|default:'Note' }}">
+                        {{ note.file_name|default:"Note" }}
+                        </div>
+
+                        <div class="note_actions">
+                        <button type="button" class="icon-btn btn_share" data-id="{{ note.id }}">
+                            <img src="{% static 'images/assets/share_icon.svg' %}" alt="share" class="img_note_h__functions">
+                        </button>
+
+                        <button type="button" class="icon-btn btn_download" data-id="{{ note.id }}">
+                            <img src="{% static 'images/assets/download_icon.svg' %}" alt="download" class="img_note_h__functions">
+                        </button>
+                        </div>
+                    </div>
+                    </div>
+
+                    {% empty %}
+
+                    <p>No notes found.</p>
+                    {% endfor %}
+
+                </div>
+             </div>
+            <!-- =============================================================== -->
+             <!-- notifications overlays -->
+              <div class="notes-grid-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 20px; margin-top: 20px;">
+                 </div>
+
+             <div class="upload_overlay" id="upload_file_overlay1">
+                 <div class="upload-card-container">
+                     <div class="upload-card-header">
+                         <h3>✦ Upload Study Document</h3>
+                         <button class="modal-close-btn" id="close_file_modal">&times;</button>
+                     </div>
+                     <div id="dropzone_area_notes" class="dropzone-box">
+                         <input type="file" id="file_input_notes" accept=".pdf,.docx,.txt" hidden>
+                         <div class="dropzone-content">
+                             <img src="{% static 'images/assets/file_icon.svg' %}" style="width:40px; margin-bottom:10px; opacity:0.7;">
+                             <h4>Drag & Drop notes here</h4>
+                             <p>Supports PDF, DOCX, TXT up to <span>5MB</span></p>
+                             <button type="button" class="browse-btn" onclick="document.getElementById('file_input_notes').click()">Browse Files</button>
+                         </div>
+                     </div>
+                     <div class="upload-card-footer">
+                         <button class="process-btn1">⚡ Analyze File</button>
+                     </div>
+                 </div>
+             </div>
+
+             <div class="upload_overlay" id="upload_text_overlay2">
+                 <div class="upload-card-container">
+                     <div class="upload-card-header">
+                         <h3>✦ Paste Raw Notes</h3>
+                         <button class="modal-close-btn" id="close_text_modal">&times;</button>
+                     </div>
+                     <div class="paste-box">
+                         <textarea id="pasted_notes_input" placeholder="Type or paste study contents here..."></textarea>
+                     </div>
+                     <div class="upload-card-footer">
+                         <button class="process-btn2">⚡ Analyze Text</button>
+                     </div>
+                 </div>
+             </div>
+
+              <!-- sub_functions overlay -->
+            <div class="upload_overlay" id="sub_functions_overlay2">
+                <div class="SB_content">
+                    <div class="SB_header">
+                        <h3>Note Actions</h3>
+                        <button class="SB_close">&times;</button>
+                    </div>
+
+                    <div class="SB_actions">
+                        <button class="SB_btn summarize_note_overlay">
+                            <span>🧠</span>
+                            <div>
+                                <strong>Summarize Note</strong>
+                                <small>Generate a refined AI summary</small>
+                            </div>
+                        </button>
+
+                        <button class="SB_btn Quiz_overlay">
+                            <span>🎯</span>
+                            <div>
+                                <strong>Generate Quiz</strong>
+                                <small>Create practice questions</small>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Quiz Overlay -->
+            <div class="upload_overlay" id="quiz_overlay">
+                <div class="quiz-card">
+                    <div class="quiz-header">
+                        <h3>AI Quiz by scholar schield AI</h3>
+                        <button class="quiz-close-btn" id="close-btn2">&times;</button>
+                    </div>
+                    <div id="quiz_container"></div>
+                </div>
+            </div>
+            
+        </div>
+        <!-- end note uploader -->
+        <!-- task planner -->
+        <div class="main_area-task_planner m_panel">
+    
+    <!-- Header Component -->
+    <div class="ai_assistance-header">
+        <span class="panel_title">AI Task Planner</span> <br>
+        <span class="panel_subtitle">Autonomous academic priority modeling and optimization engine</span>
+    </div>
+
+    <!-- Master Split Workspace Layout -->
+    <div class="planner-workspace">
+        
+        <!-- LEFT CONTROL COLUMN: Radar Dashboard & Input Terminal -->
+        <div class="planner-sidebar">
+            
+            <!-- AI Analytics Radar Widget -->
+            <div class="radar-card">
+                <div class="radar-header">
+                    <h4>AI FOCUS RADAR</h4>
+                    <span class="radar-status-dot"></span>
+                </div>
+                <p class="radar-desc">System active. Analyzing outstanding task deadlines, complexity metrics, and project constraints.</p>
+                <div class="radar-metric">
+                    <span class="metric-value">0.0</span>
+                    <span class="metric-label">FOCUS INDEX</span>
+                </div>
+            </div>
+
+            <!-- Glassmorphic Task Intake Form -->
+            <form id="task-planner-form" class="planner-input-card">
+                <h4 class="form-title">ENGAGE NEW ACADEMIC TASK</h4>
+                
+                <div class="form-group">
+                    <input type="text" id="task-input-title" class="planner-control" placeholder="Task Title (e.g., Seminar Defense Design)" required>
+                </div>
+
+                <div class="form-group">
+                    <textarea id="task-input-excerpt" class="planner-control string-textarea" placeholder="Input specific constraints, targets, or complexity descriptions..." rows="2" required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <input type="text" id="task-input-tag" class="planner-control" placeholder="Tag (e.g., Core Research)" required>
+                    </div>
+                    <button type="submit" class="task-submit-btn">
+                        <span>Deploy Task</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- AI Pinned Priority Hotzone (Up-Till-Done) -->
+            <div class="hotzone-wrapper">
+                <div class="zone-title-badge">CRITICAL HOTZONE (AUTO-PINNED)</div>
+                <div class="hotzone-container">
+                    {% for task in critical_hotzone %}
+    <div class="task-card priority-critical pulsing-glow" data-id="{{ task.id }}">
+        <div class="task-card-header">
+            <span class="heat-rating">{{ task.ai_score|floatformat:1 }} RATING</span>
+            <span class="time-countdown">{{ task.deadline }}</span>
+        </div>
+        <h3 class="task-title">{{ task.title }}</h3>
+        <p class="task-excerpt">{{ task.excerpt }}</p>
+        <div class="task-card-footer">
+            <span class="task-tag">{{ task.tag }}</span>
+            <button class="resolve-btn">
+                <span class="check-icon">✓</span> Mark Resolved
+            </button>
+        </div>
+    </div>
+    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT DISPLAY COLUMN: Scrollable Academic Timeline Feed -->
+        <div class="planner-feed-zone">
+            <div class="feed-header-title">All Academic Activities</div>
+            <div class="feed-scroll-container">
+                {% for task in standard_feed %}
+    <div class="task-card {% if task.ai_score >= 5.5 %}priority-medium{% else %}priority-low{% endif %}" data-id="{{ task.id }}">
+        <div class="task-card-header">
+            <span class="heat-rating">{{ task.ai_score|floatformat:1 }} RATING</span>
+            <span class="time-countdown">{{ task.deadline }}</span>
+        </div>
+        <h3 class="task-title">{{ task.title }}</h3>
+        <p class="task-excerpt">{{ task.excerpt }}</p>
+        <div class="task-card-footer">
+            <span class="task-tag">{{ task.tag }}</span>
+            <button class="resolve-btn">
+                <span class="check-icon">✓</span> Resolve
+            </button>
+        </div>
+    </div>
+    {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</div>
+        <!-- end task planner -->
+    </div>
+</div>
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+    <script>
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == "success" %}
+                    Swal.fire({
+                    icon: '{{ message.tags }}',
+                    title: 'success',
+                    text: '{{ message }}',
+                    });
+                {% elif message.tags == "error" %}
+                    Swal.fire({
+                    icon: '{{ message.tags }}',
+                    title: 'Error',
+                    text: '{{ message }}',
+                    });
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        window.STATIC_URL = "{% static 'images/assets/' %}";
+    </script>
+    <script>
+        document.addEventListener("click", async (e) => {
+        const shareBtn = e.target.closest(".btn_share");
+        if (!shareBtn) return;
+
+        const noteId = shareBtn.dataset.id;
+        if (!noteId) return;
+
+        shareBtn.disabled = true;
+
+        Swal.fire({
+            title: "Sending to your email...",
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
+        });
+
+        try {
+            const response = await fetch(`/notes/share/${noteId}/`, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            }
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+            throw new Error(data.error || `Failed (${response.status})`);
+            }
+
+            Swal.fire({
+            icon: "success",
+            title: "Sent!",
+            text: `Your note has been delivered to your email - ${data.to} - it make take up to one minutes`,
+            timer: 3000,
+            showConfirmButton: false
+            });
+
+        } catch (err) {
+            Swal.fire({ icon: "error", title: "Share failed", text: err.message });
+        } finally {
+            shareBtn.disabled = false;
+        }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- <script src="https://unpkg.com/dropzone@6/dist/dropzone-min.js"></script> -->
+    <script src="{% static 'js/brain.js' %}"></script>
+    <script src="{% static 'js/brain2.js' %}"></script>
+    <script src="{% static 'js/planner.js' %}"></script>
+</body>
+</html>
